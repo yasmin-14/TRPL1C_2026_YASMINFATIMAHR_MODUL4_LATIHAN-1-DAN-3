@@ -1,0 +1,69 @@
+class Pegawai {
+  String id;
+  String nama;
+
+  Pegawai(this.id, this.nama);
+}
+Pegawai? sequentialSearch(List<Pegawai> daftar, String targetId, int Function(int) catatPerbandingan) {
+  for (int i = 0; i < daftar.length; i++) {
+    catatPerbandingan(1); // Hitung 1 perbandingan
+    if (daftar[i].id == targetId) {
+      return daftar[i];
+    }
+  }
+  return null;
+}
+Pegawai? binarySearch(List<Pegawai> daftar, String targetId, int Function(int) catatPerbandingan) {
+  int left = 0;
+  int right = daftar.length - 1;
+
+  while (left <= right) {
+    int mid = (left + right) ~/ 2;
+    catatPerbandingan(1); // Perbandingan antara target dan daftar[mid]
+    
+    if (daftar[mid].id == targetId) {
+      return daftar[mid];
+    } else if (daftar[mid].id.compareTo(targetId) < 0) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+
+  return null;
+}
+void main() {
+  List<Pegawai> pegawaiList = [
+    Pegawai("A01", "Dwi"),
+    Pegawai("A02", "Cikal"),
+    Pegawai("A03", "Fahri"),
+    Pegawai("A04", "Yasmin"),
+    Pegawai("A05", "Fatimah"),
+  ];
+
+  // Urutkan untuk binary search
+  pegawaiList.sort((a, b) => a.id.compareTo(b.id));
+
+  int perbandinganSeq = 0;
+  int perbandinganBin = 0;
+
+  // Pencarian Sequential
+  var hasil1 = sequentialSearch(
+    pegawaiList,
+    "A04",
+    (n) => perbandinganSeq += n,
+  );
+
+  // Pencarian Binary
+  var hasil2 = binarySearch(
+    pegawaiList,
+    "A04",
+    (n) => perbandinganBin += n,
+  );
+
+  print("Hasil Sequential: ${hasil1?.nama ?? "Tidak ditemukan"}");
+  print("Jumlah Perbandingan Sequential: $perbandinganSeq");
+
+  print("Hasil Binary: ${hasil2?.nama ?? "Tidak ditemukan"}");
+  print("Jumlah Perbandingan Binary: $perbandinganBin");
+}
