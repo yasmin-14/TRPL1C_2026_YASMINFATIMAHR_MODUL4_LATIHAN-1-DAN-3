@@ -1,0 +1,42 @@
+class Pegawai {
+  String id;
+  String nama;
+
+  Pegawai(this.id, this.nama);
+}
+List<Pegawai> sequentialSearchAll(List<Pegawai> daftar, String targetId, int Function(int) catatPerbandingan) {
+  List<Pegawai> hasil = [];
+
+  for (var pegawai in daftar) {
+    catatPerbandingan(1); // Hitung perbandingan
+    if (pegawai.id == targetId) {
+      hasil.add(pegawai);
+    }
+  }
+
+  return hasil;
+}
+void main() {
+  List<Pegawai> pegawaiList = [
+    Pegawai("A01", "Supratman"),
+    Pegawai("A02", "Budi"),
+    Pegawai("A02", "Cikal"),
+    Pegawai("A03", "Citra"),
+    Pegawai("A02", "Bagus"),
+  ];
+
+  int perbandingan = 0;
+
+  var hasil = sequentialSearchAll(
+    pegawaiList,
+    "A02",
+    (n) => perbandingan += n,
+  );
+
+  print("Pegawai dengan ID 'A02':");
+  for (var pegawai in hasil) {
+    print("${pegawai.id} - ${pegawai.nama}");
+  }
+
+  print("Jumlah Perbandingan: $perbandingan");
+}
